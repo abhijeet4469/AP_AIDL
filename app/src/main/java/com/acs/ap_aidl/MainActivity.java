@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,39 +20,18 @@ public class MainActivity extends AppCompatActivity {
 
     IOrientationData iOrientationData;
     int timeInterval = 8;
+    TextView txtRotatVector, txtRotatVectorRoll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        txtRotatVector = findViewById(R.id.txtRotatVector);
+        txtRotatVectorRoll = findViewById(R.id.txtRotatVectorRoll);
 
         Intent intentService = new Intent(this, OrientationDataService.class);
         bindService(intentService, serviceConnection, Context.BIND_AUTO_CREATE);
-
-        Button btnStart = findViewById(R.id.btnStart);
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    iOrientationData.startOrientationReceiver();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        Button btnStop = findViewById(R.id.btnStop);
-        btnStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    iOrientationData.stopOrientationReceiver();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
     }
 
@@ -82,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
             SensorManager.getOrientation(adjustedRotationMatrix, orientation);
             float roll = orientation[2] * -57;
 
-            System.out.println("Service ==========="+val[0]+"  "+val[1]+"  "+val[2]+"  "+val[3]+"  "+roll);
+            txtRotatVector.setText(val[0]+"  "+val[1]+"  "+val[2]+"  "+val[3]);
+            txtRotatVectorRoll.setText("Roll :"+roll);
+            //System.out.println("Service ==========="+val[0]+"  "+val[1]+"  "+val[2]+"  "+val[3]+"  "+roll);
         }
         getSensorData();
     }

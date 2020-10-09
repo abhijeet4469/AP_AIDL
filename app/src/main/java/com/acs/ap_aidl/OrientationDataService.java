@@ -18,9 +18,6 @@ import android.widget.Toast;
 
 public class OrientationDataService extends Service  implements SensorEventListener {
 
-    public OrientationDataService() {
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -50,24 +47,13 @@ public class OrientationDataService extends Service  implements SensorEventListe
 
     IOrientationData.Stub binder = new IOrientationData.Stub() {
         @Override
-        public void startOrientationReceiver() {
-        }
-
-        @Override
-        public void stopOrientationReceiver() {
-        }
-
-        @Override
         public float[] orientationDataListener() throws RemoteException {
-
             return sensorData;
         }
     };
 
 
-    private static final String TAG = "MotionStrategy";
     private boolean mRegistered = false;
-    private float[] mSensorMatrix = new float[16];
     float[] sensorData;
 
 
@@ -81,16 +67,13 @@ public class OrientationDataService extends Service  implements SensorEventListe
             return;
         }
         mSensorManager.registerListener(this, sensor, 80000);
-
         mRegistered = true;
     }
 
     protected void unregisterSensor(Context context){
         if (!mRegistered) return;
-
         SensorManager mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.unregisterListener(this);
-
         mRegistered = false;
     }
 
@@ -100,8 +83,9 @@ public class OrientationDataService extends Service  implements SensorEventListe
     public void onSensorChanged(final SensorEvent event) {
 
         if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-
             sensorData= event.values;
+
+            // Uncomment this code to apply broadcast receiver
             /*Intent intent = new Intent("com.acs.ap_aidl.BROAD_CAST");
             intent.putExtra("SENSOR_DATA", sensorData);
             sendBroadcast(intent);*/
