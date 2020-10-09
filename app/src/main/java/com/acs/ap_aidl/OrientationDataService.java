@@ -86,9 +86,9 @@ public class OrientationDataService extends Service  implements SensorEventListe
             sensorData= event.values;
 
             // Uncomment this code to apply broadcast receiver
-            /*Intent intent = new Intent("com.acs.ap_aidl.BROAD_CAST");
+            Intent intent = new Intent("com.acs.ap_aidl.BROAD_CAST");
             intent.putExtra("SENSOR_DATA", sensorData);
-            sendBroadcast(intent);*/
+            sendBroadcast(intent);
         }
     }
 

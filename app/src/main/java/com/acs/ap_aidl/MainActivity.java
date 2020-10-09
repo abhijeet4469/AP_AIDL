@@ -1,8 +1,10 @@
 package com.acs.ap_aidl;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -35,6 +37,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.acs.ap_aidl.BROAD_CAST");
+        this.registerReceiver(receiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        if (receiver != null) {
+            this.unregisterReceiver(receiver);
+            receiver = null;
+        }
+        super.onPause();
+    }
+    // get data by broadcast receiver
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() == "com.acs.ap_aidl.BROAD_CAST"){
+                float[] values = intent.getFloatArrayExtra("SENSOR_DATA");
+                calculateVector(values);
+            }
+        }
+    };*/
+
+    // get data by interface
     private void getSensorData() {
         new Handler().postDelayed(new Runnable() {
             @Override
